@@ -2,6 +2,8 @@ import React from 'react';
 import '../Form/form.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from '../../../redux/actions';
 
 const personSchema = yup.object({
   name: yup
@@ -18,20 +20,20 @@ const initialValues = {
   number: '',
 };
 
-export function PhonebookForm({ state, onSubmit }) {
-  const hendelSubmit = (values, actions) => {
-    const dataContacts = state;
-    const nameInput = values.name;
+export function PhonebookForm() {
+  const dispatch = useDispatch();
+  const dataContacts = useSelector(state => state.contacts);
 
+  const hendelSubmit = (values, actions) => {
+    const nameInput = values.name;
     const isContact = dataContacts.some(item => {
       return nameInput.toLowerCase() === item.name.toLowerCase();
     });
-
     if (!!isContact) {
       alert(`${nameInput} is already in contacts`);
       actions.resetForm();
     } else {
-      onSubmit(values);
+      dispatch(addContact(values));
       actions.resetForm();
     }
   };
@@ -63,3 +65,16 @@ export function PhonebookForm({ state, onSubmit }) {
     </>
   );
 }
+
+// const dataContacts = state;
+// const nameInput = values.name;
+// const isContact = dataContacts.some(item => {
+//   return nameInput.toLowerCase() === item.name.toLowerCase();
+// });
+// if (!!isContact) {
+//   alert(`${nameInput} is already in contacts`);
+//   actions.resetForm();
+// } else {
+//   onSubmit(values);
+//   actions.resetForm();
+// }
