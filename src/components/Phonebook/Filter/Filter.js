@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setStatusFilter } from '../../../redux/actions';
+import { setStatusFilter } from '../../../redux/Filter/actions';
 import '../Filter/filter.css';
 
 export default function Filter() {
-  const filterValue = useSelector(state => state.filter.name);
+  const filterValue = useSelector(state => state.filterReducer.name);
+  console.log(filterValue);
   const dispatch = useDispatch();
   return (
     <>
